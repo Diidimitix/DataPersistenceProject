@@ -24,10 +24,9 @@ public class MainManager : MonoBehaviour
 
     
     // Start is called before the first frame update
-    
-    void Start()
+    public void Start()
     {
-        HighScore.text = "HighScore : " +MenuUI.Name +" " +h_Points;
+        HighScore.text = "HighScore : " +MenuUI.Name +": " +MenuUI.Record;
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -43,7 +42,6 @@ public class MainManager : MonoBehaviour
             }
         }
     }
-
     private void Update()
     {
         if (!m_Started)
@@ -79,7 +77,13 @@ public class MainManager : MonoBehaviour
         if (h_Points < m_Points)
         {
             h_Points = m_Points;
-            HighScore.text = "HighScore : " +MenuUI.Name +" " +h_Points;
+            if (MenuUI.Record < h_Points)
+            {
+                MenuUI.Name = MenuUI.CurrentName;
+                MenuUI.Record = h_Points;
+                MenuUI.SaveScore();
+            }
+            HighScore.text = "HighScore: "+MenuUI.Name +": " +MenuUI.Record;
         }
         m_GameOver = true;
         GameOverText.SetActive(true);
